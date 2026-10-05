@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="no">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Gjøremål</title>
+  <meta name="description" content="En enkel todo-app">
+
+  <!-- Farge på nettleserlinjen på mobil (lys og mørk modus) -->
+  <meta name="theme-color" content="#f4f3ef" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#141518" media="(prefers-color-scheme: dark)">
+
+  <!-- Gjør at siden kan installeres som en app (PWA) -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+
+  <!-- Ekstra for iPhone/iPad: ikon og navn på hjemskjermen -->
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Gjøremål">
+
+  <link rel="stylesheet" href="style.css">
+
+  <!-- "defer" = kjør skriptene etter at siden er lest inn, i denne rekkefølgen -->
+  <script src="storage.js" defer></script>
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <main class="app">
+    <header class="topp">
+      <h1 id="liste-tittel">Gjøremål</h1>
+      <button id="liste-meny-knapp" class="ikon-knapp" type="button" aria-label="Valg for listen">
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+          <circle cx="5" cy="12" r="2" /><circle cx="12" cy="12" r="2" /><circle cx="19" cy="12" r="2" />
+        </svg>
+      </button>
+    </header>
+
+    <!-- Fanene for listene. Innholdet lages av app.js -->
+    <nav class="lister" aria-label="Lister">
+      <ul id="liste-faner" class="faner"></ul>
+      <button id="ny-liste-knapp" class="fane fane-ny" type="button">+ Ny liste</button>
+    </nav>
+
+    <form id="ny-oppgave-skjema" class="ny-oppgave">
+      <input id="ny-oppgave-tekst" type="text" placeholder="Legg til en oppgave …"
+             aria-label="Ny oppgave" autocomplete="off" enterkeyhint="done" maxlength="200">
+      <button type="submit" aria-label="Legg til">
+        <svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true">
+          <path d="M12 5v14M5 12h14" />
+        </svg>
+      </button>
+    </form>
+
+    <!-- Selve oppgavelisten. Innholdet lages av app.js -->
+    <ul id="oppgaver" class="oppgaver"></ul>
+
+    <p id="tom-melding" class="tom" hidden>Ingen oppgaver ennå.<br>Skriv noe over for å komme i gang.</p>
+
+    <footer id="bunn" class="bunn" hidden>
+      <span id="antall-igjen"></span>
+      <button id="fjern-fullforte" class="tekst-knapp" type="button">Fjern fullførte</button>
+    </footer>
+  </main>
+
+  <!-- Dialog for å skrive inn navn på en liste -->
+  <dialog id="navn-dialog" class="dialog">
+    <form id="navn-skjema" class="dialog-innhold">
+      <h2 id="navn-tittel">Ny liste</h2>
+      <input id="navn-felt" type="text" maxlength="40" autocomplete="off"
+             enterkeyhint="done" aria-labelledby="navn-tittel">
+      <div class="dialog-knapper">
+        <button id="navn-avbryt" type="button" class="tekst-knapp">Avbryt</button>
+        <button type="submit" class="hoved-knapp">Lagre</button>
+      </div>
+    </form>
+  </dialog>
+
+  <!-- Meny med valg for den aktive listen -->
+  <dialog id="meny-dialog" class="dialog">
+    <div class="dialog-innhold meny">
+      <button id="meny-gi-navn" type="button" class="meny-valg">Gi listen nytt navn</button>
+      <button id="meny-slett" type="button" class="meny-valg fare">Slett listen</button>
+      <button id="meny-lukk" type="button" class="meny-valg dempet">Avbryt</button>
+    </div>
+  </dialog>
+</body>
+</html>

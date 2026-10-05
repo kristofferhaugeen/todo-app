@@ -1,0 +1,457 @@
+/* =====================================================================
+   style.css – utseendet til appen.
+
+   Fargene er samlet som "variabler" øverst (--navn). Vil du endre
+   fargene, endrer du dem bare her.
+   ===================================================================== */
+
+:root {
+  --bakgrunn: #f4f3ef;
+  --kort: #ffffff;
+  --tekst: #1f2328;
+  --dempet: #6b7078;
+  --linje: #e7e5df;
+  --aksent: #4361ee;
+  --aksent-tekst: #ffffff;
+  --fare: #d63c3c;
+  --skygge: 0 1px 2px rgb(0 0 0 / 0.04), 0 6px 20px rgb(0 0 0 / 0.06);
+  --radius: 16px;
+  color-scheme: light dark;
+}
+
+/* Mørk modus: brukes automatisk hvis mobilen/PC-en er satt til mørkt */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bakgrunn: #141518;
+    --kort: #1e2025;
+    --tekst: #e8e8eb;
+    --dempet: #9a9ca4;
+    --linje: #2d3036;
+    --aksent: #7b8cff;
+    --aksent-tekst: #0f1122;
+    --fare: #ff6b6b;
+    --skygge: 0 1px 2px rgb(0 0 0 / 0.3);
+  }
+}
+
+/* ---------- Grunnoppsett ---------- */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bakgrunn);
+  color: var(--tekst);
+  font: 16px/1.45 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent; /* fjerner blått blink ved trykk på mobil */
+}
+
+button,
+input {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--aksent);
+  outline-offset: 2px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* Appen er smal og sentrert på PC, og fyller skjermen på mobil.
+   env(safe-area-inset-…) gir plass til "hakket" og hjem-streken på iPhone. */
+.app {
+  max-width: 560px;
+  margin: 0 auto;
+  padding:
+    calc(env(safe-area-inset-top) + 20px)
+    calc(env(safe-area-inset-right) + 16px)
+    calc(env(safe-area-inset-bottom) + 40px)
+    calc(env(safe-area-inset-left) + 16px);
+}
+
+@media (min-width: 640px) {
+  .app {
+    padding-top: 56px;
+  }
+}
+
+/* ---------- Toppen ---------- */
+
+.topp {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.9rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+
+.ikon-knapp {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: var(--dempet);
+}
+
+.ikon-knapp:hover {
+  background: var(--linje);
+  color: var(--tekst);
+}
+
+.ikon-knapp svg {
+  fill: currentColor;
+}
+
+/* ---------- Fanene for listene ---------- */
+
+.lister {
+  display: flex;
+  gap: 8px;
+  margin: 14px -16px 18px; /* lar fanene rulle helt ut til kanten på mobil */
+  padding: 2px 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.lister::-webkit-scrollbar {
+  display: none;
+}
+
+.faner {
+  display: flex;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fane {
+  padding: 7px 14px;
+  border: 1px solid var(--linje);
+  border-radius: 999px;
+  background: var(--kort);
+  white-space: nowrap;
+  font-size: 0.95rem;
+  transition: background 0.15s, color 0.15s;
+}
+
+.fane[aria-current="true"] {
+  border-color: var(--aksent);
+  background: var(--aksent);
+  color: var(--aksent-tekst);
+  font-weight: 600;
+}
+
+.fane-ny {
+  flex: none;
+  border-style: dashed;
+  background: transparent;
+  color: var(--dempet);
+}
+
+/* ---------- Ny oppgave ---------- */
+
+.ny-oppgave {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.ny-oppgave input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid var(--linje);
+  border-radius: var(--radius);
+  background: var(--kort);
+  box-shadow: var(--skygge);
+  font-size: 1rem; /* minst 16px, ellers zoomer iPhone inn */
+}
+
+.ny-oppgave input:focus {
+  border-color: var(--aksent);
+  outline: none;
+}
+
+.ny-oppgave button {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 52px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--aksent);
+  color: var(--aksent-tekst);
+  box-shadow: var(--skygge);
+  transition: transform 0.1s;
+}
+
+.ny-oppgave button:active {
+  transform: scale(0.94);
+}
+
+.ny-oppgave svg {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+/* ---------- Oppgavelisten ---------- */
+
+.oppgaver {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: var(--kort);
+  border-radius: var(--radius);
+  box-shadow: var(--skygge);
+  overflow: hidden;
+}
+
+.oppgaver:empty {
+  display: none;
+}
+
+.oppgave {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 56px;
+  padding: 8px 6px 8px 16px;
+}
+
+.oppgave + .oppgave {
+  border-top: 1px solid var(--linje);
+}
+
+.oppgave.ny {
+  animation: inn 0.25s ease-out;
+}
+
+@keyframes inn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+}
+
+/* Rund avkrysningsboks som vi tegner selv */
+.avkrysning {
+  appearance: none;
+  display: grid;
+  place-content: center;
+  flex: none;
+  width: 24px;
+  height: 24px;
+  margin: 0;
+  border: 2px solid var(--dempet);
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.avkrysning::before {
+  content: "";
+  width: 6px;
+  height: 11px;
+  margin-top: -2px;
+  border: solid var(--aksent-tekst);
+  border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.15s;
+}
+
+.avkrysning:checked {
+  border-color: var(--aksent);
+  background: var(--aksent);
+}
+
+.avkrysning:checked::before {
+  transform: rotate(45deg) scale(1);
+}
+
+.tekst {
+  flex: 1;
+  min-width: 0;
+  padding: 6px 0;
+  overflow-wrap: anywhere;
+  cursor: text;
+  transition: color 0.15s;
+}
+
+.oppgave.ferdig .tekst {
+  color: var(--dempet);
+  text-decoration: line-through;
+}
+
+.rediger-felt {
+  flex: 1;
+  min-width: 0;
+  padding: 5px 8px;
+  margin: 0 0 0 -8px;
+  border: 1px solid var(--aksent);
+  border-radius: 8px;
+  background: transparent;
+  font-size: 1rem;
+  outline: none;
+}
+
+.slett {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.slett:hover {
+  background: transparent;
+  color: var(--fare);
+}
+
+/* På PC (med mus) vises slett-knappen bare når du holder over oppgaven.
+   På mobil er den alltid synlig, siden man ikke kan "holde over". */
+@media (hover: hover) {
+  .oppgave .slett {
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+
+  .oppgave:hover .slett,
+  .slett:focus-visible {
+    opacity: 1;
+  }
+}
+
+/* ---------- Bunnen og tom liste ---------- */
+
+.bunn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 4px;
+  color: var(--dempet);
+  font-size: 0.9rem;
+}
+
+.tekst-knapp {
+  padding: 8px 10px;
+  border: none;
+  border-radius: 8px;
+  background: none;
+  color: var(--aksent);
+  font-weight: 500;
+}
+
+.tekst-knapp:hover {
+  background: var(--linje);
+}
+
+.tom {
+  margin: 0;
+  padding: 48px 16px;
+  color: var(--dempet);
+  text-align: center;
+}
+
+/* ---------- Dialoger ---------- */
+
+.dialog {
+  width: min(92vw, 360px);
+  padding: 0;
+  border: none;
+  border-radius: 20px;
+  background: var(--kort);
+  color: var(--tekst);
+  box-shadow: 0 20px 60px rgb(0 0 0 / 0.25);
+}
+
+.dialog::backdrop {
+  background: rgb(0 0 0 / 0.35);
+}
+
+.dialog-innhold {
+  padding: 20px;
+}
+
+.dialog h2 {
+  margin: 0 0 14px;
+  font-size: 1.15rem;
+}
+
+.dialog input {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--linje);
+  border-radius: 12px;
+  background: var(--bakgrunn);
+  font-size: 1rem;
+}
+
+.dialog input:focus {
+  border-color: var(--aksent);
+  outline: none;
+}
+
+.dialog-knapper {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.hoved-knapp {
+  padding: 8px 18px;
+  border: none;
+  border-radius: 10px;
+  background: var(--aksent);
+  color: var(--aksent-tekst);
+  font-weight: 600;
+}
+
+.meny {
+  display: flex;
+  flex-direction: column;
+  padding: 8px;
+}
+
+.meny-valg {
+  padding: 14px 16px;
+  border: none;
+  border-radius: 12px;
+  background: none;
+  text-align: left;
+}
+
+.meny-valg:hover {
+  background: var(--linje);
+}
+
+.meny-valg.fare {
+  color: var(--fare);
+}
+
+.meny-valg.dempet {
+  color: var(--dempet);
+}
